@@ -1,0 +1,5 @@
+
+SERVER = "127.0.0.1"
+PORT = 65432
+RECV_TIMEOUT = 3.0
+DOCUMENTS_PATH = "documents/"
