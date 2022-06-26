@@ -119,7 +119,7 @@ class textEditor(QtWidgets.QMainWindow):
             
             self.ui.textEdit.setTextCursor(cursor)
             self.setFontSize()
-            self.setFont()
+
 
             self.custom_Delay(500)
 
