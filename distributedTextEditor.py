@@ -4,9 +4,9 @@ from PyQt5 import QtGui
 from PyQt5 import QtCore
 from client import client
 import os
-from fileSelector import Ui_fileSelector
-from createTextFile import Ui_createTextFile
-from textEditor import Ui_secondWindow
+from UI_package.fileSelector import Ui_fileSelector
+from UI_package.createTextFile import Ui_createTextFile
+from UI_package.textEditor import Ui_secondWindow
 
 
 available_files = []
@@ -35,7 +35,6 @@ class mainWindow(QtWidgets.QMainWindow):
         ############################################################
         #### GET FILES AKA C.START() #############
 
-
         self.f = available_files
         ###########################################################
         self.filesBtn = []
@@ -53,12 +52,11 @@ class mainWindow(QtWidgets.QMainWindow):
            
             self.filesBtn[i].setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
             self.filesNames[i].setAlignment(QtCore.Qt.AlignCenter)
+            self.filesNames[i].setStyleSheet("font: 14px;")
             vLayout = QtWidgets.QVBoxLayout()
             vLayout.addWidget(self.filesBtn[i],4)
             vLayout.addWidget(self.filesNames[i],1)
             self.ui.filesGrid.addLayout(vLayout, self.row, self.col)
-
-            #self.filesBtn[i].setStyleSheet("border-image: url(./img/txt.png) ;")
             self.filesBtn[i].clicked.connect(lambda state, btn = i: self.openNotebook(self.f[btn])) 
 
             self.col += 1
@@ -106,7 +104,6 @@ class textEditor(QtWidgets.QMainWindow):
         self.ui.textEdit.setFont(font)
         self.setCentralWidget(self.ui.textEdit)
         self.setWindowTitle('Text Editor')
-        #self.showMaximized()
         self.create_tool_bar()
         self.ui.textEdit.setFontPointSize(24)
         self.setWindowTitle(self.fileName)
@@ -122,6 +119,8 @@ class textEditor(QtWidgets.QMainWindow):
             
             self.ui.textEdit.setTextCursor(cursor)
             self.setFontSize()
+            self.setFont()
+
             self.custom_Delay(500)
 
 
@@ -129,6 +128,7 @@ class textEditor(QtWidgets.QMainWindow):
         loop = QtCore.QEventLoop()
         QtCore.QTimer.singleShot(t, loop.quit)
         loop.exec_()
+
     def create_tool_bar(self):
         toolbar = QtWidgets.QToolBar()
  
@@ -185,7 +185,7 @@ class textEditor(QtWidgets.QMainWindow):
         
     def setFont(self):
         font = self.fontBox.currentText()
-        self.ui.textEdit.setCurrentFont(QtGui.QFont(font))    
+        self.ui.textEdit.setFont(QtGui.QFont(font))
         
     def italicText(self):
         state = self.ui.textEdit.fontItalic()
@@ -248,9 +248,7 @@ class createNewFile(QtWidgets.QMainWindow):
         self.ui = Ui_createTextFile()
         self.ui.setupUi(self)
 
-        self.ui.createFileBtn.clicked.connect(self.createNewFile)
-        
-        
+        self.ui.createFileBtn.clicked.connect(self.createNewFile)     
         self.show()
 
     def createNewFile(self):
@@ -263,7 +261,9 @@ class createNewFile(QtWidgets.QMainWindow):
         self.ui.createFileBtn.setHidden(True)
         self.ui.label.resize(200, 100);
         self.ui.label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        self.ui.label.setAlignment(QtCore.Qt.AlignCenter) 
+        self.ui.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.setCentralWidget(self.ui.label)
+        
         self.ui.label.setWordWrap(True);
         # check if file name already exit in the directory
         # f = [_ for _ in os.listdir('./textFiles') if _.endswith('txt')]
